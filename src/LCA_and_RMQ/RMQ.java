@@ -1,10 +1,16 @@
 package LCA_and_RMQ;
 
 /*
- * any range minimum query (RMQ) problem can be reduced to 
- * LCA (lowest common ancestor) problem, and to +-1 RMQ 
- * problem, which can be solved in O(n),O(1) time.
+ * interface for range minimum query problem
+ * 
  */
-public class RMQ {
-
+public interface RMQ {
+    /**
+     * returns index of min element in array[i...j]
+     * when there are ties, return the first index
+     * @param i
+     * @param j
+     * @return
+     */
+    public int min(int i, int j);
 }

@@ -1,8 +1,10 @@
 package yunfeiImplementAlgs4;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import edu.princeton.cs.algs4.In;
 
@@ -16,28 +18,74 @@ public class BinaryTreeNode {
         this.right = null;
     }        
     /**
+     * return Euler Tour in an array. An Euler Tour
+     * traverses every edge of a directed graph
+     * exactly once and records which nodes are visited.
+     * each undirected edge consists of two directed 
+     * edges of opposite directions.
      * 
      * @param root
      * @return
      */
-    public BinaryTreeNode[] EulerTour(BinaryTreeNode root) {
-        return new BinaryTreeNode[0];
+    public static BinaryTreeNode[] EulerTour(BinaryTreeNode root) {
+        ArrayList<BinaryTreeNode> tour = new ArrayList<BinaryTreeNode>();
+        EulerTour(tour, root);
+        return tour.toArray(new BinaryTreeNode[0]);
+    }
+    private static void EulerTour(ArrayList<BinaryTreeNode> tour, BinaryTreeNode root) {
+        if (root == null) {
+            return;
+        }
+        tour.add(root);
+        EulerTour(tour, root.left);
+        if (root.left != null) {
+            tour.add(root);
+        }
+        EulerTour(tour, root.right);
+        if (root.right != null) {
+            tour.add(root);
+        }
     }
     /**
      * output levels (distance from root) in Euler tour order
      * @return
      */
-    public int[] getLevels(BinaryTreeNode root, BinaryTreeNode[] euler) {
-        return new int[0];
+    public static int[] getLevels(BinaryTreeNode root, BinaryTreeNode[] euler) {
+        if (root == null || euler == null || euler.length == 0) {
+            throw new IllegalArgumentException();
+        }
+        Map<BinaryTreeNode, Integer> node2levels = BinaryTreeNode.getLevels(root);
+        int[] levels = new int[euler.length];
+        for (int i = 0; i < euler.length; i++) {
+            levels[i] = node2levels.get(euler[i]);            
+        }
+        return levels;
     }
     /**
-     * output leveles (distance from root) in Euler tour order
-     * Euler tour will be calculated on the fly
-     * @param root
-     * @return
+     * output levels in a Map with key as nodes
+     * and values as levels. Use BFS (level-order
+     * traversal) to find all levels.
      */
-    public int[] getLevels(BinaryTreeNode root) {
-        return getLevels(root, EulerTour(root));
+    public static Map<BinaryTreeNode, Integer> getLevels(BinaryTreeNode root) {
+        Queue<BinaryTreeNode> toVisit = new LinkedList<BinaryTreeNode>();
+        Map<BinaryTreeNode, Integer> node2level = new HashMap<BinaryTreeNode, Integer>();
+        int currentLevel = 0;
+        toVisit.offer(root);
+        while(!toVisit.isEmpty()) {
+            int currentLevelSize = toVisit.size();
+            for (int i = 0; i < currentLevelSize; i++) {
+                BinaryTreeNode current = toVisit.poll();
+                if(current.left != null) {
+                    toVisit.add(current.left);
+                }
+                if (current.right != null) {
+                    toVisit.add(current.right);
+                }
+                node2level.put(current, currentLevel);
+            }
+            currentLevel++;
+        }
+        return node2level;
     }
     /**
      * take root of a binary tree and serialize it into text
@@ -108,7 +156,12 @@ public class BinaryTreeNode {
 
         return root;
     }
+    /**
+     * simple unit tests
+     * @param args
+     */
     public static void main(String[] args) {
+        /*test serialization deserialization*/
         for (int i = 0; i < args.length; i++) {
             System.out.println("processing " + args[i]);
             In in = new In(args[i]);
@@ -116,5 +169,20 @@ public class BinaryTreeNode {
         }        
         System.out.println(serialize(deserialize("1,2,3")));
         System.out.println(serialize(deserialize("1,2,#,3,#")));
+        /*test Euler tour*/
+        BinaryTreeNode test = new BinaryTreeNode(0);
+        test.left = new BinaryTreeNode(1);
+        test.right = new BinaryTreeNode(2);
+        BinaryTreeNode[] eulerTour = BinaryTreeNode.EulerTour(test);
+        System.out.println(eulerTour[0] == test);
+        System.out.println(eulerTour[1] == test.left);
+        System.out.println(eulerTour[2] == test);
+        System.out.println(eulerTour[3] == test.right);
+        System.out.println(eulerTour[4] == test);
+        /*test levels*/
+        Map<BinaryTreeNode, Integer> node2level = BinaryTreeNode.getLevels(test);
+        System.out.println(node2level.get(test) == 0);
+        System.out.println(node2level.get(test.left) == 1);
+        System.out.println(node2level.get(test.right) == 1);
     }
 }

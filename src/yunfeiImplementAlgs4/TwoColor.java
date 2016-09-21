@@ -8,6 +8,6 @@ public class TwoColor {
         
     }
     public boolean isBipartite() {
-        
+       return false;
     }
 }
