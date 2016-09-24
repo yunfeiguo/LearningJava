@@ -9,7 +9,7 @@ package LCA_and_RMQ;
 public class DynamicProgrammingRMQ implements RMQ{
     private int N;
     private int[][] result;
-    /*
+    /**
      * should run in O(n^2) time and space
      * use dynamic programming to pre-calculate
      * all possible queries

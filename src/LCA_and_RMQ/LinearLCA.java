@@ -41,7 +41,7 @@ public class LinearLCA implements LCA {
         euler = BinaryTreeNode.EulerTour(root);
         node2representatives = getRepresentatives(euler);      
         levels = BinaryTreeNode.getLevels(root, euler);
-        this.rmq = new SparseTableRMQ(this.levels);
+        this.rmq = new NormalizedRMQ(this.levels);
     }
     private Map<BinaryTreeNode, Integer> getRepresentatives(BinaryTreeNode[] euler) {
         Map<BinaryTreeNode, Integer> representatives = new HashMap<BinaryTreeNode, Integer>();
