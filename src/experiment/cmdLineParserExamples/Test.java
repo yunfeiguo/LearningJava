@@ -1,4 +1,4 @@
-package cmdLineParserExamples;
+package experiment.cmdLineParserExamples;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;

@@ -1,4 +1,4 @@
-package cmdLineParserExamples;
+package experiment.cmdLineParserExamples;
 
 /**
  * Created by guoy28 on 9/22/16.
