@@ -22,5 +22,6 @@ public class NimGame {
   public static void main(String[] args) {
     NimGame test = new NimGame();
     System.out.println(!test.canWinNim(1348820612));
+    System.out.println((Integer.MAX_VALUE) * ((double) 1 /Long.MAX_VALUE));
   }
 }
