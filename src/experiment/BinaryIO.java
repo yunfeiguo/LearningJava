@@ -15,6 +15,7 @@ public class BinaryIO {
       lenOut.close();
     } catch (IOException e) {
       e.printStackTrace();
+    }
 
   }
 }
